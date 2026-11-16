@@ -5,6 +5,15 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
+  // Height of the top bar plus header, so the hero can slide up underneath them
+  var topbar = document.querySelector(".topbar");
+  function setTopH() {
+    var h = header.offsetHeight + (topbar ? topbar.offsetHeight : 0);
+    document.documentElement.style.setProperty("--top-h", h + "px");
+  }
+  window.addEventListener("resize", setTopH);
+  setTopH();
+
   // Practice areas dropdown
   var drop = document.querySelector('.nav-drop');
   var dropBtn = drop.querySelector('.nav-drop-btn');
@@ -23,6 +32,7 @@
   var menu = document.getElementById('mobile-menu');
   function setMenu(open) {
     if (open) menu.style.top = Math.round(header.getBoundingClientRect().bottom) + 'px';
+    header.classList.toggle("is-open", open);
     menu.hidden = !open;
     burger.setAttribute('aria-expanded', String(open));
     burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
